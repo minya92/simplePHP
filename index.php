@@ -1,32 +1,27 @@
 <?php
 session_start();
+define('ROOT', realpath( dirname( __FILE__) ) . '/');
 
 function page_loader($page = 'index'){
     $pages = ['index', 'login', '404', 'list'];
     if(isset($_SESSION['login']) && $_SESSION['login']){
         $match = false;
         foreach($pages as $p){
-            if($page == $p)
+            if($page == $p){
                 $match = true;
+                break;
+            }
         }
         if($match)
             include ROOT . 'app/controllers/' . $p . '.php';
+        else
+            include ROOT . 'app/controllers/404.php';
     } else {
+        //echo "login";
         include ROOT . 'app/controllers/login.php';
     }
 }
 
-define('ROOT', realpath( dirname( __FILE__) ) . '/');
-
 $page = isset($_GET['p']) ? $_GET['p'] : 'index';
 
-switch ($page){
-    case 'index' : 
-        page_loader('index');
-        break;
-    case 'login' :
-        page_loader('login');
-        break;
-    default :
-        page_loader('404');
-}
+page_loader($page);
