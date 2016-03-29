@@ -1,27 +1,17 @@
 <?php
 session_start();
 define('ROOT', realpath( dirname( __FILE__) ) . '/');
+define('VIEWS', ROOT .'app/views/');
 
-function page_loader($page = 'index'){
-    $pages = ['index', 'login', '404', 'list'];
-    if(isset($_SESSION['login']) && $_SESSION['login']){
-        $match = false;
-        foreach($pages as $p){
-            if($page == $p){
-                $match = true;
-                break;
-            }
-        }
-        if($match)
-            include ROOT . 'app/controllers/' . $p . '.php';
-        else
-            include ROOT . 'app/controllers/404.php';
-    } else {
-        //echo "login";
-        include ROOT . 'app/controllers/login.php';
-    }
+try {
+    require_once ROOT .'app/Core/Autoloader.php';
+
+    $Application = new \SimplePHP\Core\System\Application();
+    $Application->run();
 }
-
-$page = isset($_GET['p']) ? $_GET['p'] : 'index';
-
-page_loader($page);
+catch(\Exception $E ){
+    echo '<pre><b>Exception catched:</b> ' . $E->getMessage()
+        . '<br /><br />In <u>' . $E->getFile()
+        . '</u>, at line <b>#' . $E->getLine()
+        . '</b><br /><br />' . $E->getTraceAsString() . '</pre>';
+}
