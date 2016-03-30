@@ -1,12 +1,12 @@
 <?php
 namespace SimplePHP\Core\System;
-use SimplePHP\Controllers as C;
+use SimplePHP\Application\Controllers as C;
 
 class Application {
 
     public function run(){
 
-        $page = isset($_GET['page']) ? $_GET['page'] : 'index';
+        $page = isset($_GET['p']) ? $_GET['p'] : 'index';
 
 //        function page_loader($page = 'index'){
 //            $pages = ['index', 'login', '404', 'list'];
@@ -35,12 +35,17 @@ class Application {
         switch( $page ){
             case 'index':
                 $IndexController = new C\IndexController();
-                echo $IndexController->indexAction();
+                $IndexController->indexAction();
                 break;
 
             case 'login':
-                $LoginController = new LoginController();
+                $LoginController = new C\LoginController();
                 $LoginController->indexAction();
+                break;
+
+            case 'list':
+                $ListController = new C\ListController();
+                $ListController->indexAction();
                 break;
 
             default:

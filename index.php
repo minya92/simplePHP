@@ -1,10 +1,10 @@
 <?php
 session_start();
 define('ROOT', realpath( dirname( __FILE__) ) . '/');
-define('VIEWS', ROOT .'app/views/');
+define('VIEWS', ROOT .'Application/views/');
 
 try {
-    require_once ROOT .'app/Core/Autoloader.php';
+    require_once ROOT .'Core/Autoloader.php';
 
     $Application = new \SimplePHP\Core\System\Application();
     $Application->run();

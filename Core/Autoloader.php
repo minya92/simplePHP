@@ -21,7 +21,7 @@ class Autoloader {
 
         $className = array_pop( $namespaces ); // Application
         //print_r($namespaces);
-        $load = ROOT . ( "app/" . join('/', $namespaces) . "/" ) . $className .'.php';
+        $load = ROOT . (join('/', $namespaces) . "/" ) . $className .'.php';
         echo $load . '<br>';
         if(!file_exists( $load ))
             throw new \UnexpectedValueException( 'Could not load library for class '. $fullClassName .' - '. $load . ' - ' );
