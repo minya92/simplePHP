@@ -5,14 +5,14 @@
  * Date: 23.03.2016
  * Time: 0:33
  */
-include ROOT . "/app/views/_header.phtml";
+include VIEWS . "_header.phtml";
 ?>
 
 <div class="alert alert-dismissible alert-danger">
     <button type="button" class="close" data-dismiss="alert">×</button>
     <strong>Error!</strong>
-    <a href="javascript:void(0)" class="alert-link"> 404 not found!
+    <a href="javascript:void(0)" class="alert-link"> {{error}}
 </div>
 
 <?php
-include ROOT . "/app/views/_footer.phtml";
+include VIEWS . "_footer.phtml";

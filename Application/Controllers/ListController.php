@@ -8,9 +8,17 @@ class ListController{
 
         $View = new HtmlView();
         $View->setData([
-            'title' => 'Список страниц для редактирования'
+            'title' => 'Список страниц',
+            'test'  => 'Test Variable'
         ]);
         $View->setTemplate('list');
+        $View->render();
+    }
+
+    public function errAction(){
+
+        $View = new HtmlView();
+        $View->setTemplate('listerr');
         $View->render();
     }
 
