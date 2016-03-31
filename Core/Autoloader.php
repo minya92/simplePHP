@@ -1,5 +1,5 @@
 <?php
-namespace SimplePHP;
+namespace SimplePHP; //@todo Почему без \Core
 
 define('__NAMESPACE__', 'SimplePHP');
 

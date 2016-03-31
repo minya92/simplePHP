@@ -7,28 +7,29 @@
  */
 namespace SimplePHP\Application\Controllers;
 use SimplePHP\Core\View\HtmlView;
+use SimplePHP\Core\System\Request;
+
 class LoginController {
 
     public function indexAction(){
 
-        if(isset($_REQUEST['login']) && isset($_REQUEST['pass'])){
-            $login = $_REQUEST['login'];
-            $pass  = $_REQUEST['pass'];
-            if($login == 'test' && $pass == 'test'){
-                $_SESSION['login'] = 'test';
+        $Request = new Request();
+        $req = $Request->request(['login', 'pass', 'logout']);
+
+        if($req['login'] && $req['pass']){
+            if($req['login'] == 'test' && $req['pass'] == 'test'){
+                $_SESSION['login'] = 'test'; // todo сделать  модуль управления сессией
             }
-            $uri = explode('/', $_SERVER['REQUEST_URI']);
-            array_pop($uri);
-            $uri= join('/', $uri);
-            //echo $uri;
-            header('Location: http://'.$_SERVER['HTTP_HOST']. $uri. '/?p=index');
+            $host = $Request->getHost();
+            $uri = $Request->getUriPath();
+            header('Location: '. $host . $uri. '?p=index');
         } else {
             $View = new HtmlView();
             $View->setTemplate('login');
             $View->render();
         }
 
-        if(isset($_REQUEST['logout'])){
+        if($req['logout']){
             unset($_SESSION['login']);
         }
     }
