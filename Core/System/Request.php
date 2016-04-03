@@ -62,6 +62,10 @@ class Request
         return $uri . '/';
     }
 
+    public function getUri(){
+        return $_SERVER['REQUEST_URI'];
+    }
+
     public function getHost(){
         return 'http://'.$_SERVER['HTTP_HOST']; // todo добавить SSL
     }

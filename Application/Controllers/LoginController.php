@@ -20,9 +20,7 @@ class LoginController {
             if($req['login'] == 'test' && $req['pass'] == 'test'){
                 $_SESSION['login'] = 'test'; // todo сделать  модуль управления сессией
             }
-            $host = $Request->getHost();
-            $uri = $Request->getUriPath();
-            header('Location: '. $host . $uri. '?p=index');
+            header('Location: '. $Request->getHost() . $Request->getUriPath(). '?p=index');
         } else {
             $View = new HtmlView();
             $View->setTemplate('login');
