@@ -9,7 +9,8 @@ class ListController{
         $View = new HtmlView();
         $View->setData([
             'title' => 'Список страниц',
-            'test'  => 'Test Variable'
+            'test'  => 'Test Variable',
+            'array' => ['one', 'two']
         ]);
         $View->setTemplate('list');
         $View->render();

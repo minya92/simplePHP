@@ -7,15 +7,12 @@ class HtmlView extends BaseView {
 
     public function render(){
 
-        ob_start(function($buffer){
-            $data = $this->getData();
-            if(is_array($data)){
-                foreach($data as $i => $value){
-                    $buffer = (str_replace("{{".$i."}}", $value, $buffer));
-                }
-            }
-            return $buffer;
-        });
+        $data = $this->getData();
+        if(is_array($data)){
+            extract($data);
+        }
+
+        ob_start();
 
         if(!file_exists( VIEWS . $this->template .'.phtml' )){
             // @todo что-то тут не так, надо сделать проще!
