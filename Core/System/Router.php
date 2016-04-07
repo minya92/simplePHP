@@ -32,7 +32,44 @@ class Router
          * то роуты не нужны
          */
     }
+    
+    private function parseUri($route){
+        $uri = $this->uri;
+        $route = explode('/', $route);
+        $reg = "/^";
+        $result['route'] = '';
+        foreach ($route as $item){
+            if($item) {
+                if ($item{0} == ':') {
+                    $reg = $reg . "\/(\w+)";
+                    $result[substr($item, 1)] = 0;
+                } else {
+                    $reg = $reg . "\/" . $item;
+                }
+            }
+        }
+        $reg = $reg . ".?$/";
+        preg_match($reg, $uri, $preg_result);
+        if(count($preg_result)) {
+            $i = 0;
+            foreach ($result as $j => $r) {
+                $result[$j] = $preg_result[$i];
+                $i++;
+            }
+            return $result;
+        }
+        return $preg_result;
+    }
 
+    private function checkUri($route){
+        $result = $this->parseUri($route);
+        //print_r($result); // Array ( ) Array ( ) Array ( ) Array ( [route] => /list/page/12/222 [id] => 12 [test] => 222 )
+        if(isset($result['route']))
+            return $result;
+        else
+            return false;
+    }
+    
     public function addRoute($uriTemplate, $controllerName, $actionName, $httpMethod = 'get'){
         array_push($this->routes, [
             'uriTemplate' => $uriTemplate,
@@ -42,22 +79,22 @@ class Router
         ]);
     }
 
-    public function getController(){
+    public function getRoute(){
         //print_r($this->routes);
         foreach ($this->routes as $route){
-            if($route['uriTemplate'] == $this->uri){
-                return $route['controllerName'] . 'Controller';
+            $res = $this->checkUri($route['uriTemplate']);
+            if($res){
+                return [
+                    'control' => $route['controllerName'] . "Controller",
+                    'action' => $route['actionName'] . "Action",
+                    'data' => $res
+                ];
             }
         }
-        return 'ErrorController';
-    }
-
-    public function getAction(){
-        foreach ($this->routes as $route){
-            if($route['uriTemplate'] == $this->uri){
-                return $route['actionName'] . 'Action';
-            }
-        }
-        return 'error404Action';
+        return [
+            'control' => 'ErrorController',
+            'action'  => 'error404Action',
+            'data'    => []
+        ];
     }
 }

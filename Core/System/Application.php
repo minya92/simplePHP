@@ -5,13 +5,18 @@ namespace SimplePHP\Core\System;
 class Application {
 
     public function run(){
+
         $Router = new Router();
+
         include ROOT .'Application/config/routes.php';
 
-        $controllerClass = "SimplePHP\\Application\\Controllers\\" . $Router->getController();
-        $actionName = $Router->getAction();
+        $Route = $Router->getRoute();
+
+        // todo сократить путь!
+        $controllerClass = "SimplePHP\\Application\\Controllers\\" . $Route['control'];
 
         $Controller = new $controllerClass();
-        $Controller->$actionName();
+
+        $Controller->$Route['action']($Route['data']);
     }
 }
