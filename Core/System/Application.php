@@ -12,11 +12,21 @@ class Application {
 
         $Route = $Router->getRoute();
 
-        // todo сократить путь!
-        $controllerClass = "SimplePHP\\Application\\Controllers\\" . $Route['control'];
+        try{
+            // todo сократить путь!
+            $controllerClass = "SimplePHP\\Application\\Controllers\\" . $Route['control'];
+            if(!preg_match("/^(\w+)$/", $Route['control']))
+                throw new \UnexpectedValueException( 'Could not load library for class ');
+            $Controller = new $controllerClass();
+            $Controller->$Route['action']($Route['data']);
 
-        $Controller = new $controllerClass();
+        } catch (\Exception $e){
+            // todo вынести в конфиг
+            $controllerClass = "SimplePHP\\Application\\Controllers\\ErrorController";
+            $Controller = new $controllerClass();
+            $Controller->error404Action();
 
-        $Controller->$Route['action']($Route['data']);
+        }
+
     }
 }

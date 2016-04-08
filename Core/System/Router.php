@@ -23,14 +23,6 @@ class Router
     public function __construct(){
         $Request = new Request();
         $this->uri = $Request->getUri();
-
-        //echo $this->uri;
-        //print_r($this->routes);
-
-        /**
-         * если так /books/item/50 -> Books->item
-         * то роуты не нужны
-         */
     }
     
     private function parseUri($route){
@@ -80,7 +72,6 @@ class Router
     }
 
     public function getRoute(){
-        //print_r($this->routes);
         foreach ($this->routes as $route){
             $res = $this->checkUri($route['uriTemplate']);
             if($res){
@@ -91,10 +82,29 @@ class Router
                 ];
             }
         }
+        //если ничего не нашлось
+        $uri = explode('/', $this->uri);
+        //print_r($uri);
+        $control = 'ErrorController';
+        $action = 'error404Action';
+        $data = [];
+        foreach($uri as $i => $item){
+            switch ($i){
+                case 1 : $control = $item ? ucfirst($item) . "Controller" : "IndexController";
+                    $action = 'indexAction';
+                    break;
+                case 2 :
+                    $action = $item . "Action";
+                    break;
+                case 3 :
+                    $data['id'] = $item;
+                    break;
+            }
+        }
         return [
-            'control' => 'ErrorController',
-            'action'  => 'error404Action',
-            'data'    => []
+            'control' =>  $control,
+            'action'  => $action,
+            'data'    => $data
         ];
     }
 }

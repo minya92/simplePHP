@@ -18,6 +18,9 @@ class ListController{
 
     public function pageAction($data = []){
 
+        if(!isset($data['test']))
+            $data['test'] = null;
+
         $View = new HtmlView();
         $View->setData([
         'title' => 'Редактирование страницы № ' . $data['id'],

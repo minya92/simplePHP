@@ -1,5 +1,5 @@
 <?php
-$uri = '/list/page/8/43/te/';
+$uri = '/drgrgrg';
 $route = '/list/page/:page/:id/test/';
 //echo $regexp = preg_replace('(\/(:*\/))', '\\\/${1}', $route);
 //echo preg_replace('(:*\\\)', '11${1}', $regexp);
@@ -17,14 +17,6 @@ $reg = "/^";
 $reg = $reg . ".?$/";
 
 //echo $reg;
-//$reg = "/^\/list\/page\/(\w+)\/(\w+).$/";
-//preg_match($reg, $uri, $mas);
+$reg = "/^\/(\w+)$/";
+echo preg_match($reg, $uri, $mas);
 //print_r($mas);
-
-$test = [];
-$test['z'] = 0;
-$test['a'] = 0;
-$test['a'] = 10;
-$test['b'] = 0;
-$test['c'] = 0;
-print_r($test);
