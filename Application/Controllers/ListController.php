@@ -19,9 +19,6 @@ class ListController{
 
     public function pageAction($data = []){
 
-        if(!isset($data['json']))
-            $data['test'] = null;
-
         $View = new HtmlView();
         $View->setData([
         'title' => 'Редактирование страницы № ' . $data['id'],
@@ -33,6 +30,7 @@ class ListController{
     }
 
     public function pageJSONAction($data = []){
+
         $View = new JsonView();
         $View->setData([
             'title' => 'Edit Page № ' . $data['id'],
