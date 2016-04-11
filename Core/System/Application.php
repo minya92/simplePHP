@@ -3,10 +3,20 @@ namespace SimplePHP\Core\System;
 
 
 class Application {
+    /**
+     * @var
+     */
+    private $Router;
+
+    public function getRouter(){
+        if(!$this->Router)
+            $this->Router = new Router();
+        return $this->Router;
+    }
 
     public function run(){
 
-        $Router = new Router();
+        $Router = $this->getRouter();
 
         include ROOT .'Application/config/routes.php';
         include ROOT .'Application/config/settings.php';
