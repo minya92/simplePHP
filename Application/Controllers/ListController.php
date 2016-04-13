@@ -1,7 +1,9 @@
 <?php
 namespace SimplePHP\Application\Controllers;
-use \SimplePHP\Core\View\HtmlView;
+
+use SimplePHP\Core\View\HtmlView;
 use SimplePHP\Core\View\JsonView;
+use SimplePHP\Core\System\Helper;
 
 class ListController{
 
@@ -19,14 +21,16 @@ class ListController{
 
     public function pageAction($data = []){
 
+        $data = Helper::checkArguments($data, ['id', 'test', 'json']);
+
         $View = new HtmlView();
         $View->setData([
-        'title' => 'Редактирование страницы № ' . $data['id'],
+            'title' => 'Редактирование страницы № ' . $data['id'],
             'test'  => 'Test Variable = ' . $data['test'],
             'array' => ['one', 'two']
         ]);
-        $View->setTemplate('list_page');
-        $View->render();
+        $View->setTemplate('list_page')->render();
+        //$View->render();
     }
 
     public function pageJSONAction($data = []){

@@ -28,5 +28,6 @@ class HtmlView extends BaseView {
 
     public function setTemplate( $template ){
         $this->template = $template;
+        return $this;
     }
 }

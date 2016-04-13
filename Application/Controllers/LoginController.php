@@ -6,28 +6,51 @@
  * Time: 0:33
  */
 namespace SimplePHP\Application\Controllers;
+
 use SimplePHP\Core\View\HtmlView;
+use SimplePHP\Core\View\JsonView;
 use SimplePHP\Core\System\Request;
+use SimplePHP\Core\System\Helper;
 
-class LoginController {
+class LoginController
+{
 
-    public function indexAction(){
-
-        $Request = new Request();
-        $req = $Request->request(['login', 'pass', 'logout']);
-
-        if($req['login'] && $req['pass']){
-            if($req['login'] == 'test' && $req['pass'] == 'test'){
-                $_SESSION['login'] = 'test'; // todo сделать  модуль управления сессией
-            }
-            header('Location: '. $Request->getHost() . $Request->getUriPath(). '?p=index');
+    public function indexAction()
+    {
+        if (!isset($_SESSION['login'])) {
+            Helper::redirect('/list/page/19');
         } else {
             $View = new HtmlView();
-            $View->setTemplate('login');
-            $View->render();
+            $View->setTemplate('login')->render();
+        }
+    }
+
+    public function authAction()
+    {
+        $Request = new Request();
+        $req = $Request->post(['login', 'pass']);
+
+        if($req['login'] == 'test' && $req['pass'] == 'test') {
+            $_SESSION['login'] = 'test';
+            $data = [
+                'success' => 'Login success!'
+            ];
+        } else {
+            $data = [
+                'error' => 'Login failed!'
+            ];
         }
 
-        if($req['logout']){
+        $View = new JsonView();
+        $View->setData($data);
+        $View->render();
+    }
+
+    public function logoutAction()
+    {
+        $Request = new Request();
+        $req = $Request->request(['logout']);
+        if ($req['logout']) {
             unset($_SESSION['login']);
         }
     }

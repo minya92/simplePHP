@@ -7,7 +7,6 @@
  */
 
 namespace SimplePHP\Core\System;
-use SimplePHP\Core\System\Request;
 
 class Router
 {
@@ -28,6 +27,8 @@ class Router
     private function parseUri($route){
         $uri = $this->uri;
         $route = explode('/', $route);
+
+        //<editor-fold desc="Составление регулярки для поиска и замены аргументов">
         $reg = "/^";
         $result['route'] = '';
         foreach ($route as $item){
@@ -41,6 +42,8 @@ class Router
             }
         }
         $reg = $reg . ".?$/";
+        //</editor-fold>
+
         preg_match($reg, $uri, $preg_result);
         if(count($preg_result)) {
             $i = 0;
@@ -51,15 +54,6 @@ class Router
             return $result;
         }
         return $preg_result;
-    }
-
-    private function checkUri($route){
-        $result = $this->parseUri($route);
-        //print_r($result); // Array ( ) Array ( ) Array ( ) Array ( [route] => /list/page/12/222 [id] => 12 [test] => 222 )
-        if(isset($result['route']))
-            return $result;
-        else
-            return false;
     }
     
     public function addRoute($uriTemplate, $controllerName, $actionName, $httpMethod = 'get'){
@@ -73,7 +67,8 @@ class Router
 
     public function getRoute(){
         foreach ($this->routes as $route){
-            $res = $this->checkUri($route['uriTemplate']);
+            $res = $this->parseUri($route['uriTemplate']);
+            $res = isset($res['route']) ? $res : false;
             if($res){
                 return [
                     'control' => $route['controllerName'] . "Controller",
@@ -82,7 +77,8 @@ class Router
                 ];
             }
         }
-        //если ничего не нашлось
+
+        //<editor-fold desc="Если такого маршрута не нашлось, пытаемся найти контрол по uri">
         $uri = explode('/', $this->uri);
         //print_r($uri);
         $control = 'ErrorController';
@@ -106,5 +102,6 @@ class Router
             'action'  => $action,
             'data'    => $data
         ];
+        //</editor-fold>
     }
 }

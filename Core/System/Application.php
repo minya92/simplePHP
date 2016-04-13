@@ -22,6 +22,17 @@ class Application {
         include ROOT .'Application/config/settings.php';
 
         $Route = $Router->getRoute();
+        
+//        if(!isset($_SESSION['login']))
+//        {
+//            if(isset($LOGIN_CONTROLLER_NAME) && isset($LOGIN_ACTION_NAME)) {
+//                $Request = new Request();
+//                header('Location: ' . $Request->getHost() . '/login');
+//                return;
+//            } else {
+//                throw new \UnexpectedValueException( 'Could not load library for class');
+//            }
+//        }
 
         try{
             $controllerClass = "SimplePHP\\Application\\Controllers\\" . $Route['control'];

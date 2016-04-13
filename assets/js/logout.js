@@ -3,7 +3,7 @@
  */
 function logout(){
     $.get('?p=login&logout=1', {}, function(res) {
-        window.location.href = "?p=index";
+        window.location.href = '/';
     });
 }
 
