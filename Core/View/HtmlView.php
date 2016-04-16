@@ -1,6 +1,8 @@
 <?php
 namespace SimplePHP\Core\View;
 
+use SimplePHP\Core\Exception\NotFoundException;
+
 class HtmlView extends BaseView {
 
     private $template;
@@ -15,9 +17,7 @@ class HtmlView extends BaseView {
         ob_start();
 
         if(!file_exists( VIEWS . $this->template .'.phtml' )){
-            // @todo что-то тут не так, надо сделать проще!
-            (new \SimplePHP\Application\Controllers\ErrorController())
-                ->fileNotFoundAction(VIEWS . $this->template .'.phtml');
+            new NotFoundException(VIEWS . $this->template .'.phtml');
             return;
         }
 

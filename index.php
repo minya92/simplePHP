@@ -1,7 +1,6 @@
 <?php
 session_start();
 define('ROOT', realpath( dirname( __FILE__) ) . '/');
-define('VIEWS', ROOT .'Application/views/');
 
 try {
     require_once ROOT .'Core/Autoloader.php';

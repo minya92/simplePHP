@@ -24,7 +24,7 @@ class Autoloader {
         $load = ROOT . join('/', $namespaces) . '/'  . $className . '.php';
         //echo $load . file_exists( $load ) . '<br>';
         if(!file_exists( $load ))
-            throw new \UnexpectedValueException( 'Could not load library for class '. $fullClassName .' - '. $load . ' - ' );
+            throw new \BaseException( 'Could not load library for class '. $fullClassName .' - '. $load . ' - ' );
 
         require_once $load;
     }

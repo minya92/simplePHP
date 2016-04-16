@@ -1,7 +1,11 @@
 <?php
 
-$ERROR_404_CONTROLLER_NAME  = 'ErrorController';
-$ERROR_404_ACTION_NAME      = 'error404action';
+define('VIEWS', ROOT .'Application/views/');
+define('DEBUG', 1);
 
-$LOGIN_CONTROLLER_NAME      = 'LoginController';
-$LOGIN_ACTION_NAME          = 'indexAction';
+$ERROR_CONTROLLER_NAME  = 'ErrorController';
+$ERROR_404_ACTION_NAME  = 'error404action';
+$ERROR_ACTION_NAME      = 'errAction';
+
+$LOGIN_CONTROLLER_NAME  = 'LoginController';
+$LOGIN_ACTION_NAME      = 'indexAction';

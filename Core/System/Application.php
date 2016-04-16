@@ -16,23 +16,18 @@ class Application {
 
     public function run(){
 
+        $Profiler = new Profiler();
+        $Profiler->start('routing');
+
         $Router = $this->getRouter();
 
         include ROOT .'Application/config/routes.php';
         include ROOT .'Application/config/settings.php';
 
         $Route = $Router->getRoute();
-        
-//        if(!isset($_SESSION['login']))
-//        {
-//            if(isset($LOGIN_CONTROLLER_NAME) && isset($LOGIN_ACTION_NAME)) {
-//                $Request = new Request();
-//                header('Location: ' . $Request->getHost() . '/login');
-//                return;
-//            } else {
-//                throw new \UnexpectedValueException( 'Could not load library for class');
-//            }
-//        }
+
+        $Profiler->finish('routing');
+        $time = $Profiler->getTime('routing'); //@todo добавить в логгер
 
         try{
             $controllerClass = "SimplePHP\\Application\\Controllers\\" . $Route['control'];

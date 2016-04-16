@@ -24,10 +24,10 @@ class ErrorController{
         $View->render();
     }
 
-    public function indexAction(){
+    public function indexAction($msg = false){
         $View = $this->init();
         $View->setData([
-            'error' => 'Ошибка =('
+            'error' => 'Ошибка: ' . $msg
         ]);
         $View->render();
     }
