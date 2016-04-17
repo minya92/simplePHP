@@ -17,8 +17,8 @@ class HtmlView extends BaseView {
         ob_start();
 
         if(!file_exists( VIEWS . $this->template .'.phtml' )){
-            new NotFoundException(VIEWS . $this->template .'.phtml');
-            return;
+            $error_msg = "Файл шаблона не найден. " . VIEWS . $this->template .'.phtml';
+            throw  new NotFoundException($error_msg);
         }
 
         include VIEWS . $this->template .'.phtml';

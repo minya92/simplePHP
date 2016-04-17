@@ -14,4 +14,8 @@ class BaseException extends \Exception
     public function getType(){
         return 'error';
     }
+
+    public function getMsg(){
+        return 'Внутренние неполадки. 500';
+    }
 }

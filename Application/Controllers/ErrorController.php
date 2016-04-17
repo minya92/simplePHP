@@ -27,7 +27,7 @@ class ErrorController{
     public function indexAction($msg = false){
         $View = $this->init();
         $View->setData([
-            'error' => 'Ошибка: ' . $msg
+            'error' =>  $msg
         ]);
         $View->render();
     }

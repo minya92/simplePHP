@@ -1,6 +1,7 @@
 <?php
 namespace SimplePHP\Core\System;
-
+use SimplePHP\Core\Exception\BaseException;
+use SimplePHP\Core\Exception\NotFoundException;
 
 class Application {
     /**
@@ -15,14 +16,15 @@ class Application {
     }
 
     public function run(){
+        $Debug = new Debug();
 
         $Profiler = new Profiler();
         $Profiler->start('routing');
 
         $Router = $this->getRouter();
 
-        include ROOT .'Application/config/routes.php';
-        include ROOT .'Application/config/settings.php';
+        require_once ROOT .'Application/config/routes.php';
+        require_once ROOT .'Application/config/settings.php';
 
         $Route = $Router->getRoute();
 
@@ -32,18 +34,22 @@ class Application {
         try{
             $controllerClass = "SimplePHP\\Application\\Controllers\\" . $Route['control'];
             if(!preg_match("/^(\w+)$/", $Route['control']))
-                throw new \UnexpectedValueException( 'Could not load library for class!!!!!');
+                throw new NotFoundException( 'Could not load library for class!!!!!');
             $Controller = new $controllerClass();
             $Controller->$Route['action']($Route['data']);
 
+        } catch (NotFoundException $e){
+
+            $Debug->resolve($e);
+
+        } catch (BaseException $e){
+
+            $Debug->resolve($e);
+
         } catch (\Exception $e){
-            if(isset($ERROR_404_CONTROLLER_NAME) && isset($ERROR_404_ACTION_NAME)){
-                $controllerClass = "SimplePHP\\Application\\Controllers\\" . $ERROR_404_CONTROLLER_NAME;
-                $Controller = new $controllerClass();
-                $Controller->$ERROR_404_ACTION_NAME();
-            }
-            else
-                echo $e;
+
+            $Debug->resolve($e, true);
+
         }
     }
 }

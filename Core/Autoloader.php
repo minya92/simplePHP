@@ -5,11 +5,13 @@ define('__NAMESPACE__', 'SimplePHP');
 
 \SimplePHP\Autoloader::register();
 
+use SimplePHP\Core\Exception\NotFoundException;
+
 class Autoloader {
 
     public static function register(){
         if(!\spl_autoload_register(__NAMESPACE__.'\\Autoloader::load'))
-            throw new \ErrorException( 'Could not register '.__NAMESPACE__.'\'s class config autoload function' );
+            throw new NotFoundException( 'Could not register '.__NAMESPACE__.'\'s class config autoload function' );
     }
 
     public static function load( $fullClassName ){
@@ -24,7 +26,7 @@ class Autoloader {
         $load = ROOT . join('/', $namespaces) . '/'  . $className . '.php';
         //echo $load . file_exists( $load ) . '<br>';
         if(!file_exists( $load ))
-            throw new \BaseException( 'Could not load library for class '. $fullClassName .' - '. $load . ' - ' );
+            throw new NotFoundException( 'Не удалось найти страницу '. $fullClassName .' - '. $load . ' - ' );
 
         require_once $load;
     }
